@@ -1,0 +1,13 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_DEFAULT_REGION: "ap-northeast-1" # 必要に応じてリージョンを変更
+phases:
+  build:
+    commands:
+      - echo "Hello World"
+      - docker build -t my-image:latest .
+      - |
+        ami_id=$(aws ec2 create-image --instance-id "i-0e330db55ef869b40" --name "codeBuildTestAmi" --description "AMI image created from EC2 instance" --output text --query 'ImageId')
+        echo "AMI image created: $ami_id"
